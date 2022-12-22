@@ -34,25 +34,24 @@ const galleryOnClick = function (event) {
     event.target.classList.contains("gallery__link") ||
     event.target.classList.contains("gallery__image")
   ) {
-    const instance = basicLightbox.create(`
+    const instance = basicLightbox.create(
+      `
     <div class="modal">
         <img class=${imgClass} src=${fullImg} alt=${imgAlt} />
-    </div>`);
-
-    instance.show();
-
-    const modalOffByKey = function (e) {
-      if (e.keyCode === 27 || key === "Escape" || code === "Escape") {
-        instance.close();
-      } else {
-        return false;
+    </div>`,
+      {
+        onShow: (instance) => {
+          window.addEventListener("keydown", (e) => {
+            if (e.keyCode === 27 || e.key === "Escape" || e.code === "Escape") {
+              instance.close();
+            } else {
+              window.removeEventListener;
+            }
+          });
+        },
       }
-    };
-
-    window.addEventListener("keydown", modalOffByKey);
-  } else {
-    return false;
+    );
+    instance.show();
   }
 };
-
 galleryWrapper.addEventListener("click", galleryOnClick);
